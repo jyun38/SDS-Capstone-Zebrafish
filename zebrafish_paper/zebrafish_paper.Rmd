@@ -1,0 +1,83 @@
+---
+title: Classification of Wildtype and Mutant Zebrafish Brains via Computational Method
+author:
+  - name: Shuli Hu
+    affiliation: Smith College
+    email: \email{vhu@smith.edu}
+  - name: Wencong Li
+    affiliation: Smith College
+    email: \email{liwencong1995@gmail.com}
+  - name: Dejia Tang
+    affiliation: Smith College
+    email: \email{dtang@smith.edu}
+  - name: Ji Young Yun
+    affiliation: Smith College
+    email: \email{jyun38@smith.edu}
+address:
+  - code: Smith College
+    address: Statistical and Data Sciences, Northampton, MA
+abstract: |
+ 
+  
+author_summary: |
+
+
+bibliography: mybibfile.bib
+output: rticles::plos_article
+csl: plos.csl
+---
+
+_Text based on plos sample manuscript, see [http://journals.plos.org/ploscompbiol/s/latex](http://journals.plos.org/ploscompbiol/s/latex)_
+
+# Introduction
+(PL)
+
+# Literature Review
+(Shuli)
+
+# Data
+(PL)
+48 Wildtypes
+14 mutants
+## Variables
+Number of points
+Median r
+## Missing Value
+Samples with missing values are eliminated by Supporting vector machine. For wedges that do not have any point in it, `median r` cannot be calculated, which means that these sample will be eliminated when running SVM. Wedges without points have biologically meanings, and we should not ignore these wedges in our model. In order to keep the wedges in our model, we need to artificially pick a `median r` value to replace the missing ones. Supporting vector machine is sensitive to outliers, so we cannot pick an `r` value that could become outliers. We decided to calculate the mean of `median r` for the nth landmark of all 52 samples, and then we replace the missing `median r` values with the mean.
+## Tidy Data
+(JY)
+
+# Supporting Vector Machine
+## What is SVM?
+(SH)
+SVM’s have been proven to be a powerful algorithm for supervised clustering. A good separation is achieved by the hyperplane that has the largest distance to the nearest training-data point of any class. 
+
+## Implementation
+### Cross-Validation
+(DT)
+## Result
+()
+## Visulization
+()
+
+# Conclusion
+()
+## Discussion
+()
+Strength
+Limitation
+
+## Future Study
+()
+Improvement
+Other models
+
+
+
+# References {#references .unnumbered}
+
+# Appendix
+## Figures
+## Python code
+
+
