@@ -40,7 +40,9 @@ def svm_classification(landmarks, index):
 
     # check whether both classes exist
     count_1 = chosenLandmark['stype'].str.contains('mt-at').sum()
+    #count_1 = chosenLandmark['stype'].str.contains('mt-zrf').sum()
     count_0 = chosenLandmark['stype'].str.contains('wt-at').sum()
+    #count_0 = chosenLandmark['stype'].str.contains('wt-zrf').sum()
 
     if (count_1 < 2 or count_0 < 2):
         return None, None, None, None, None
@@ -92,15 +94,27 @@ def svm_classification(landmarks, index):
     return svc, ww, wm, mm, mw
 
 # Read data
-#landmarks = pd.read_csv('./data/tidyLandmarks_AT_no_na.csv')
-#landmarks = pd.read_csv('../data/tidyLandmarks_ZRF_no_na.csv')
-
-landmarks = pd.read_csv('./data/landmark_AT_w_index_no_na.csv')
-#landmarks = pd.read_csv('./data/landmark_ZRF_w_index_no_na.csv')
+data = int(input("Enter 0 for filling with median and 1 for filling with 2*median: "))
+landmarks = pd.read_csv('./data/final/landmark_AT_filled_w_median.csv') if data==0 else pd.read_csv('./data/final/landmark_AT_filled_w_2median.csv')
 
 sample_id = str(input("Please enter sample index: "))
+#sample_id2 = str(input("Please enter the second sample index: "))
+#sample_id3 = str(input("Please enter the third sample index: "))
+#sample_id4= str(input("Please enter the fourth sample index: "))
 
 result_file_name = str(input("Please enter result file name: "))
+#result_file_name2 = str(input("Please enter the second result file name: "))
+#result_file_name3 = str(input("Please enter the third result file name: "))
+#result_file_name4 = str(input("Please enter the fourth result file name: "))
+
+#sample_ids = [sample_id, sample_id2, sample_id3, sample_id4]
+#sample_ids = [sample_id, sample_id2]
+#result_file_names = [result_file_name, result_file_name2, result_file_name3, result_file_name4]
+#result_file_names = [result_file_name, result_file_name2]
+
+#for i in range(2):
+#result_file_name = result_file_names[i]
+#sample_id = sample_ids[i]
 
 result_file = open(result_file_name, 'w') 
 result_file.write('landmark_index, pred, ww, wm, mm, mw\n')
@@ -112,20 +126,20 @@ landmark_ids = sample['landmark_index']
 results = []
 leave_one_out = landmarks[landmarks.sample_index!=sample_id]
 for l in landmark_ids.values:
-    print ("=======================================")
-    print ("landmark: ", str(l))
-    svc, ww, wm, mm, mw = svm_classification(leave_one_out, l)
-    if (svc is None):
-        print("One of the classes have too few samples for this landmark, so skipping it.")
-        continue
-    prediction = svc.predict(sample[sample.landmark_index==l][['pts', 'r']])
-    result = ', '.join(str(x) for x in [l, prediction[0], ww, wm, mm, mw]) + '\n'
-    results.append((l, prediction[0], ww, wm, mm, mw))
-    print(results)
+	print ("=======================================")
+	print ("landmark: ", str(l))
+	svc, ww, wm, mm, mw = svm_classification(leave_one_out, l)
+	if (svc is None):
+	    print("One of the classes have too few samples for this landmark, so skipping it.")
+	    continue
+	prediction = svc.predict(sample[sample.landmark_index==l][['pts', 'r']])
+	result = ', '.join(str(x) for x in [l, prediction[0], ww, wm, mm, mw]) + '\n'
+	results.append((l, prediction[0], ww, wm, mm, mw))
+	print(results)
 
-    result_file = open(result_file_name, 'a') 
-    result_file.write(result)
-    result_file.close() 
+	result_file = open(result_file_name, 'a') 
+	result_file.write(result)
+	result_file.close() 
 
 '''print ("=======================================")
 print("SAMPLE REPORT")
